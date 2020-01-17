@@ -6,19 +6,23 @@
         xmlns:local="clr-namespace:Reproductor"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="0,0,0,248">
+    <Grid Margin="0,0,0,90">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="68*"/>
             <ColumnDefinition Width="31*"/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="txtRutaArchivo1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="285" IsEnabled="False"/>
         <Button x:Name="btnExaminar" Content="Examinar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="328,3,0,0" Click="BtnExaminar_Click"/>
-        <Button x:Name="btnReproducir" Content="Reproducir" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,34,0,0"/>
-        <Button x:Name="btnPausa" Content="Pausa" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="101,34,0,0"/>
-        <Button x:Name="ptnDetener" Content="Detener" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="198,34,0,0"/>
+        <Button x:Name="btnReproducir" Content="Reproducir" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,34,0,0" Click="BtnReproducir_Click"/>
+        <Button x:Name="btnPausa" Content="Pausa" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="101,34,0,0" Click="BtnPausa_Click"/>
+        <Button x:Name="btnDetener" Content="Detener" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="198,34,0,0" Click="BtnDetener_Click"/>
         <TextBlock x:Name="lblTiempoActual" HorizontalAlignment="Left" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Margin="10,71,0,0"/>
         <TextBlock x:Name="lblTiempoTotal" HorizontalAlignment="Left" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Margin="370,71,0,0"/>
-        <Slider x:Name="sldTiempo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,104,0,0" Width="409"/>
+        <Slider x:Name="sldTiempo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,131,0,0" Width="409"/>
+        <ComboBox x:Name="cbDispositivoSalida" HorizontalAlignment="Left" VerticalAlignment="Top" Width="313" Margin="10,166,0,0">
+            <ComboBox Width="120"/>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Lista de Dispositivoas de Salida" VerticalAlignment="Top" Margin="10,104,0,0"/>
 
     </Grid>
 </Window>
