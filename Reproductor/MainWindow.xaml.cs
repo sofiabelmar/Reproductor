@@ -19,14 +19,23 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
 
+using System.Windows.Threading;
+
+
 
 namespace Reproductor
 {
+
+    
+
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        DispatcherTimer timer;
+
         AudioFileReader reader; //leer el archivo
         WaveOut output; // reproducir el archivo, exclusivo de salida
 
@@ -38,6 +47,19 @@ namespace Reproductor
             btnReproducir.IsEnabled = false; //deshabilitar botines
             btnDetener.IsEnabled = false;
             btnPausa.IsEnabled = false;
+
+            //Poner el intervalo al timer,  cada 500 milisegundos se va a ejecutar la función Tick
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+
+            timer.Tick += Timer_Tick;
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            lblTiempoActual.Text = reader.CurrentTime.ToString().Substring(0, 8);
+
+            sldTiempo.Value = reader.CurrentTime.TotalMilliseconds;
         }
 
         void ListaDispositivosSalida()  //lo que hace esta funcion es tomar el nombre de cada dispositivo de salida y con un for los recore e imprime en el cb
@@ -91,6 +113,12 @@ namespace Reproductor
                     btnPausa.IsEnabled = true;
 
                     lblTiempoTotal.Text = reader.TotalTime.ToString().Substring(0, 8);
+                    lblTiempoActual.Text = reader.CurrentTime.ToString().Substring(0, 8);
+
+                    sldTiempo.Maximum = reader.TotalTime.TotalMilliseconds;
+
+                    //iniciar el timer
+                    timer.Start();
                 }
             }
 
@@ -100,8 +128,10 @@ namespace Reproductor
 
         private void Output_PlaybackStopped(object sender, StoppedEventArgs e)
         {
+            timer.Stop();
             reader.Dispose();
             output.Dispose();
+            
         }
 
         private void BtnDetener_Click(object sender, RoutedEventArgs e)
