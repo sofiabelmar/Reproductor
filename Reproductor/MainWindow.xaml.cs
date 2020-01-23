@@ -39,6 +39,8 @@ namespace Reproductor
         AudioFileReader reader; //leer el archivo
         WaveOut output; // reproducir el archivo, exclusivo de salida
 
+        bool dragging = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -50,7 +52,11 @@ namespace Reproductor
 
             //Poner el intervalo al timer,  cada 500 milisegundos se va a ejecutar la función Tick
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
+
+          
+                timer.Interval = TimeSpan.FromMilliseconds(500);
+            
+           
 
             timer.Tick += Timer_Tick;
         }
@@ -59,7 +65,9 @@ namespace Reproductor
         {
             lblTiempoActual.Text = reader.CurrentTime.ToString().Substring(0, 8);
 
-            sldTiempo.Value = reader.CurrentTime.TotalMilliseconds;
+            if (!dragging) { 
+            sldTiempo.Value = reader.CurrentTime.TotalSeconds;
+            }
         }
 
         void ListaDispositivosSalida()  //lo que hace esta funcion es tomar el nombre de cada dispositivo de salida y con un for los recore e imprime en el cb
@@ -115,7 +123,7 @@ namespace Reproductor
                     lblTiempoTotal.Text = reader.TotalTime.ToString().Substring(0, 8);
                     lblTiempoActual.Text = reader.CurrentTime.ToString().Substring(0, 8);
 
-                    sldTiempo.Maximum = reader.TotalTime.TotalMilliseconds;
+                    sldTiempo.Maximum = reader.TotalTime.TotalSeconds;
 
                     //iniciar el timer
                     timer.Start();
@@ -153,6 +161,20 @@ namespace Reproductor
                 btnReproducir.IsEnabled = true;
                 btnPausa.IsEnabled = false;
                 btnDetener.IsEnabled = true;
+            }
+        }
+
+        private void sldTiempo_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            dragging = true;
+        }
+
+        private void sldTiempo_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            dragging = false;
+            if (reader != null && output != null && output.PlaybackState != PlaybackState.Stopped)
+            {
+                reader.CurrentTime = TimeSpan.FromSeconds(sldTiempo.Value);
             }
         }
     }
